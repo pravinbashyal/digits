@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { NumberDisplaySection } from "./NumberDisplaySection";
 import { NumberInputSection } from "./NumberInputSection";
@@ -6,13 +6,17 @@ import { NumberInputSection } from "./NumberInputSection";
 export const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => String(num));
 
 export default function App() {
-  const { splittedNumber, addDigitToNumber } = useNumber();
+  const { splittedNumber, addDigitToNumber, removeDigitFromNumber } =
+    useNumber();
+
+  console.log("rerender");
 
   return (
     <section className="App">
       <NumberDisplaySection numbers={splittedNumber}></NumberDisplaySection>
       <NumberInputSection
         addDigitToNumber={addDigitToNumber}
+        removeDigitFromNumber={removeDigitFromNumber}
       ></NumberInputSection>
     </section>
   );
@@ -32,23 +36,22 @@ const useNumber = () => {
     Array(numberLength).fill("")
   );
 
-  const addDigitToNumber = (digit: string) => {
+  const addDigitToNumber = useCallback((digit: string) => {
     if (currentIndex === numberLength - 1) return;
     increaseIndex();
     setSplittedNumber((prevNumber) => {
       prevNumber[currentIndex] = digit;
       return [...prevNumber];
     });
-  };
+  }, []);
 
-  const removeDigitFromNumber = () => {
+  const removeDigitFromNumber = useCallback(() => {
+    console.log({ currentIndex, splittedNumber });
     if (currentIndex < 0) return;
-    setSplittedNumber((prevNumber) => {
-      prevNumber[currentIndex] = "";
-      return [...prevNumber];
-    });
+    splittedNumber[currentIndex] = "";
+    setSplittedNumber([...splittedNumber]);
     decreaseIndex();
-  };
+  }, [splittedNumber]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -64,6 +67,7 @@ const useNumber = () => {
           console.log("enter pressed");
           break;
         case "Backspace":
+          console.log("backspace");
           removeDigitFromNumber();
           break;
         default:
@@ -73,12 +77,12 @@ const useNumber = () => {
     };
 
     document.addEventListener("keydown", onKeyDown);
-  }, []);
-
-  console.log({ splittedNumber, currentIndex });
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [addDigitToNumber, removeDigitFromNumber]);
 
   return {
     splittedNumber,
     addDigitToNumber,
+    removeDigitFromNumber,
   };
 };

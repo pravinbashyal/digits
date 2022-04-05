@@ -2,7 +2,13 @@ import React, { DOMAttributes, memo } from "react";
 import { digits } from "./App";
 
 export const NumberInputSection = memo(
-  ({ addDigitToNumber }: { addDigitToNumber: (num: string) => void }) => (
+  ({
+    addDigitToNumber,
+    removeDigitFromNumber,
+  }: {
+    addDigitToNumber: (num: string) => void;
+    removeDigitFromNumber: () => void;
+  }) => (
     <section
       style={{
         display: "flex",
@@ -17,6 +23,10 @@ export const NumberInputSection = memo(
           key={digit}
         ></ADigitInput>
       ))}
+      <ADigitInput
+        digit="Backspace"
+        onClick={() => removeDigitFromNumber()}
+      ></ADigitInput>
     </section>
   )
 );

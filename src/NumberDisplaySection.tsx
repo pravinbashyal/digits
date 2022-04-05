@@ -1,7 +1,6 @@
 import React from "react";
 
 export const NumberDisplaySection = ({ numbers }: { numbers: string[] }) => {
-  console.log({ numbers });
   return (
     <section
       aria-label="number input section"
