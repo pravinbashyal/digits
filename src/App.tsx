@@ -19,32 +19,35 @@ export default function App() {
 }
 
 const numberLength = 4;
-let currentIndex = 0;
+let currentIndex = -1;
 const useNumber = () => {
-  const increaseIndex = () => (currentIndex = currentIndex + 1);
-  const decreaseIndex = () => (currentIndex = currentIndex - 1);
+  const increaseIndex = () => {
+    if (currentIndex === numberLength) return;
+    currentIndex = currentIndex + 1;
+  };
+  const decreaseIndex = () => {
+    if (currentIndex < 0) return;
+    currentIndex = currentIndex - 1;
+  };
+
   const [splittedNumber, setSplittedNumber] = useState<string[]>(
     Array(numberLength).fill("")
   );
-  console.log({ currentIndex });
 
   const addDigitToNumber = (digit: string) => {
-    setSplittedNumber((prevNumber) => {
-      const newNumber = [...prevNumber];
-      newNumber[currentIndex] = digit;
-      console.log({
-        currentIndex,
-        digit,
-        newNumber: newNumber.join(""),
-        prevNumber: prevNumber.join(""),
-      });
-      return newNumber;
-    });
     increaseIndex();
+    setSplittedNumber((prevNumber) => {
+      prevNumber[currentIndex] = digit;
+      return [...prevNumber];
+    });
   };
 
   const removeDigitFromNumber = () => {
     decreaseIndex();
+    setSplittedNumber((prevNumber) => {
+      prevNumber[currentIndex] = "";
+      return [...prevNumber];
+    });
   };
 
   useEffect(() => {
@@ -71,7 +74,7 @@ const useNumber = () => {
     document.addEventListener("keydown", onKeyDown);
   }, []);
 
-  console.log({ splittedNumber });
+  console.log({ splittedNumber, currentIndex });
 
   return {
     splittedNumber,
