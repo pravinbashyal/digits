@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
-import { useNumber } from "./useNumber";
+import { numberLength, useNumber } from "./useNumber";
 import { NumberDisplaySection } from "./NumberDisplaySection";
 import { NumberInputSection } from "./NumberInputSection";
 import { useKeyboardListeners } from "./useKeyboardListeners";
 import { useNumberLog } from "./useNumberLog";
 import { borderStyle } from "./styles";
+import { NumbersHistory } from "./NumbersHistory";
 
 export const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => String(num));
 
@@ -17,14 +18,19 @@ export default function App() {
     resetNumberAndParams,
   } = useNumber();
 
-  const { updateNumberLogWithLatestNumber, numberLog } =
+  const { updateNumberLogWithLatestNumber, numbersLog } =
     useNumberLog(splittedNumber);
+
+  const onEnterButtonEvent = () => {
+    if (splittedNumber.includes("")) return;
+    updateNumberLogWithLatestNumber();
+    resetNumberAndParams();
+  };
 
   useKeyboardListeners({
     addDigitToNumber,
     removeDigitFromNumber,
-    updateNumberLogWithLatestNumber,
-    resetNumberAndParams,
+    onPressEnter: onEnterButtonEvent,
   });
 
   return (
@@ -61,35 +67,10 @@ export default function App() {
         <NumberInputSection
           addDigitToNumber={addDigitToNumber}
           removeDigitFromNumber={removeDigitFromNumber}
+          onClickEnter={onEnterButtonEvent}
         ></NumberInputSection>
       </main>
-      <aside
-        style={{
-          padding: "1rem",
-          borderLeft: borderStyle,
-          height: "100%",
-          flex: "2",
-        }}
-      >
-        <h2
-          style={{
-            borderBottom: borderStyle,
-            marginLeft: "-1rem",
-            marginRight: "-1rem",
-          }}
-        >
-          Number History
-        </h2>
-        <section>
-          {numberLog.map((aNumber, index) => (
-            <ul>
-              <li key={index}>
-                <p>{aNumber}</p>
-              </li>
-            </ul>
-          ))}
-        </section>
-      </aside>
+      <NumbersHistory numbersLog={numbersLog}></NumbersHistory>
     </section>
   );
 }

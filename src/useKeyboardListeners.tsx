@@ -4,13 +4,11 @@ import { digits } from "./App";
 export const useKeyboardListeners = ({
   addDigitToNumber,
   removeDigitFromNumber,
-  updateNumberLogWithLatestNumber,
-  resetNumberAndParams,
+  onPressEnter,
 }: {
   addDigitToNumber: (num: string) => void;
   removeDigitFromNumber: () => void;
-  updateNumberLogWithLatestNumber: () => void;
-  resetNumberAndParams: () => void;
+  onPressEnter: () => void;
 }) => {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -22,8 +20,7 @@ export const useKeyboardListeners = ({
       }
       switch (e.key) {
         case "Enter":
-          updateNumberLogWithLatestNumber();
-          resetNumberAndParams();
+          onPressEnter();
           break;
         case "Backspace":
           removeDigitFromNumber();
@@ -36,9 +33,5 @@ export const useKeyboardListeners = ({
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [
-    addDigitToNumber,
-    removeDigitFromNumber,
-    updateNumberLogWithLatestNumber,
-  ]);
+  }, [addDigitToNumber, removeDigitFromNumber, onPressEnter]);
 };

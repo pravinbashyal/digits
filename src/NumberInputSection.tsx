@@ -6,9 +6,11 @@ export const NumberInputSection = memo(
   ({
     addDigitToNumber,
     removeDigitFromNumber,
+    onClickEnter,
   }: {
     addDigitToNumber: (num: string) => void;
     removeDigitFromNumber: () => void;
+    onClickEnter: () => void;
   }) => (
     <section
       style={{
@@ -26,8 +28,9 @@ export const NumberInputSection = memo(
       ))}
       <ADigitInput
         digit="Backspace"
-        onClick={() => removeDigitFromNumber()}
+        onClick={removeDigitFromNumber}
       ></ADigitInput>
+      <ADigitInput digit="Enter" onClick={onClickEnter}></ADigitInput>
     </section>
   )
 );
