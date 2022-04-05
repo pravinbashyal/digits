@@ -1,4 +1,5 @@
 import React from "react";
+import { borderStyle } from "./styles";
 
 export const NumberDisplaySection = ({ numbers }: { numbers: string[] }) => {
   return (
@@ -25,7 +26,7 @@ const NumberItem = ({ digit }: { digit: string }) => {
         width: "2rem",
         padding: "1rem",
         margin: "1rem",
-        border: "1px solid rgba(50,50,50,0.5)",
+        border: borderStyle,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
