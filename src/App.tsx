@@ -22,11 +22,9 @@ const numberLength = 4;
 let currentIndex = -1;
 const useNumber = () => {
   const increaseIndex = () => {
-    if (currentIndex === numberLength) return;
     currentIndex = currentIndex + 1;
   };
   const decreaseIndex = () => {
-    if (currentIndex < 0) return;
     currentIndex = currentIndex - 1;
   };
 
@@ -35,6 +33,7 @@ const useNumber = () => {
   );
 
   const addDigitToNumber = (digit: string) => {
+    if (currentIndex === numberLength - 1) return;
     increaseIndex();
     setSplittedNumber((prevNumber) => {
       prevNumber[currentIndex] = digit;
@@ -43,11 +42,12 @@ const useNumber = () => {
   };
 
   const removeDigitFromNumber = () => {
-    decreaseIndex();
+    if (currentIndex < 0) return;
     setSplittedNumber((prevNumber) => {
       prevNumber[currentIndex] = "";
       return [...prevNumber];
     });
+    decreaseIndex();
   };
 
   useEffect(() => {
@@ -58,11 +58,12 @@ const useNumber = () => {
       if (digits.includes(e?.key)) {
         addDigitToNumber(e.key);
       }
+      console.log(e.key);
       switch (e.key) {
         case "Enter":
           console.log("enter pressed");
           break;
-        case "BackSpace":
+        case "Backspace":
           removeDigitFromNumber();
           break;
         default:
