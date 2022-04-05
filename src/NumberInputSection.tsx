@@ -1,21 +1,24 @@
-import React, { DOMAttributes } from "react";
+import React, { DOMAttributes, memo } from "react";
 import { digits } from "./App";
 
-export const NumberInputSection = ({
-  addDigitToNumber,
-}: {
-  addDigitToNumber: (num: string) => void;
-}) => (
-  <section
-    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-  >
-    {digits.map((digit) => (
-      <ADigitInput
-        digit={digit}
-        onClick={() => addDigitToNumber(digit)}
-      ></ADigitInput>
-    ))}
-  </section>
+export const NumberInputSection = memo(
+  ({ addDigitToNumber }: { addDigitToNumber: (num: string) => void }) => (
+    <section
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {digits.map((digit) => (
+        <ADigitInput
+          digit={digit}
+          onClick={() => addDigitToNumber(digit)}
+          key={digit}
+        ></ADigitInput>
+      ))}
+    </section>
+  )
 );
 
 type ADigitInputProps = {
@@ -23,7 +26,7 @@ type ADigitInputProps = {
   onClick: DOMAttributes<HTMLButtonElement>["onClick"];
 };
 
-const ADigitInput = ({ digit, onClick }: ADigitInputProps) => {
+const ADigitInput: React.FC<ADigitInputProps> = memo(({ digit, onClick }) => {
   return (
     <button
       onClick={onClick}
@@ -40,4 +43,4 @@ const ADigitInput = ({ digit, onClick }: ADigitInputProps) => {
       {digit}
     </button>
   );
-};
+});

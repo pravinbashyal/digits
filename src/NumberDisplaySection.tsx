@@ -1,15 +1,22 @@
 import React from "react";
 
-export const NumberDisplaySection = ({ numbers }: { numbers: string[] }) => (
-  <section
-    aria-label="number input section"
-    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-  >
-    {numbers.map((digit, i) => (
-      <NumberItem digit={digit} key={`${digit}-${i}`}></NumberItem>
-    ))}
-  </section>
-);
+export const NumberDisplaySection = ({ numbers }: { numbers: string[] }) => {
+  console.log({ numbers });
+  return (
+    <section
+      aria-label="number input section"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {numbers.map((digit, i) => (
+        <NumberItem digit={digit} key={`${digit}-${i}`}></NumberItem>
+      ))}
+    </section>
+  );
+};
 
 const NumberItem = ({ digit }: { digit: string }) => {
   return (
