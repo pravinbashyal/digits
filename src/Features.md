@@ -1,0 +1,2 @@
+- [ ] show numbers
+- [ ] show pressed number below that could be pressed
