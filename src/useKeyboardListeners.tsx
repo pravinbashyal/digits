@@ -5,10 +5,12 @@ export const useKeyboardListeners = ({
   addDigitToNumber,
   removeDigitFromNumber,
   updateNumberLogWithLatestNumber,
+  resetNumberAndParams,
 }: {
   addDigitToNumber: (num: string) => void;
   removeDigitFromNumber: () => void;
   updateNumberLogWithLatestNumber: () => void;
+  resetNumberAndParams: () => void;
 }) => {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -21,6 +23,7 @@ export const useKeyboardListeners = ({
       switch (e.key) {
         case "Enter":
           updateNumberLogWithLatestNumber();
+          resetNumberAndParams();
           break;
         case "Backspace":
           removeDigitFromNumber();

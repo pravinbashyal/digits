@@ -4,6 +4,8 @@ export type ANumber = string[];
 
 export const numberLength = 4;
 
+const makeDefaultNumber = () => Array(numberLength).fill("");
+
 let currentIndex = -1;
 export const useNumber = () => {
   const increaseIndex = () => {
@@ -14,7 +16,7 @@ export const useNumber = () => {
   };
 
   const [splittedNumber, setSplittedNumber] = useState<ANumber>(
-    Array(numberLength).fill("")
+    makeDefaultNumber()
   );
 
   const addDigitToNumber = useCallback((digit: string) => {
@@ -33,9 +35,15 @@ export const useNumber = () => {
     decreaseIndex();
   }, [splittedNumber]);
 
+  const resetNumberAndParams = () => {
+    currentIndex = -1;
+    setSplittedNumber(makeDefaultNumber());
+  };
+
   return {
     splittedNumber,
     addDigitToNumber,
     removeDigitFromNumber,
+    resetNumberAndParams,
   };
 };
