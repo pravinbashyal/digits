@@ -18,12 +18,11 @@ export default function App() {
     resetNumberAndParams,
   } = useNumber();
 
-  const { updateNumberLogWithLatestNumber, numbersLog } =
-    useGameLogic(splittedNumber);
+  const { checkNumber, numbersLog, isCorrectNumber } = useGameLogic();
 
   const onEnterButtonEvent = () => {
     if (splittedNumber.includes("")) return;
-    updateNumberLogWithLatestNumber();
+    checkNumber(splittedNumber);
     resetNumberAndParams();
   };
 
@@ -69,6 +68,7 @@ export default function App() {
           removeDigitFromNumber={removeDigitFromNumber}
           onClickEnter={onEnterButtonEvent}
         ></NumberInputSection>
+        {isCorrectNumber ? <p>The number was {numbersLog[0]?.number}</p> : null}
       </main>
       <NumbersHistory numbersLog={numbersLog}></NumbersHistory>
     </section>

@@ -21,14 +21,7 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
       Number History
     </h2>
     <section>
-      <section
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          alignItems: "center",
-          justifyItems: "start",
-        }}
-      >
+      <section style={styles.gridRow}>
         <p>number</p>
         <p>correct digits</p>
         <p>correct numbers</p>
@@ -41,20 +34,9 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
             padding: 0,
           }}
         >
-          <li
-            key={index}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              alignItems: "center",
-              justifyItems: "start",
-            }}
-          >
-            <p style={{ paddingLeft: "0.25rem" }}>{aNumberLog.number}</p>
-            <p style={{ paddingLeft: "0.25rem" }}>
-              {" "}
-              {aNumberLog.correctDigitCount}
-            </p>
+          <li key={index} style={styles.gridRow}>
+            <p style={styles.logItem}>{aNumberLog.number}</p>
+            <p style={styles.logItem}> {aNumberLog.correctDigitCount}</p>
             <p style={{ paddingLeft: "0.25rem" }}>
               {aNumberLog.correctPositionCount}
             </p>
@@ -64,3 +46,13 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
     </section>
   </aside>
 );
+
+const styles = {
+  gridRow: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    alignItems: "center",
+    justifyItems: "start",
+  },
+  logItem: { paddingLeft: "0.25rem" },
+};
