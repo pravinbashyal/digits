@@ -21,12 +21,43 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
       Number History
     </h2>
     <section>
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          alignItems: "center",
+          justifyItems: "start",
+        }}
+      >
+        <p>number</p>
+        <p>correct digits</p>
+        <p>correct numbers</p>
+      </section>
       {numbersLog.map((aNumberLog, index) => (
-        <ul>
-          <li key={index}>
-            <p>{aNumberLog.number}</p>
-            <p>{aNumberLog.correctDigitCount}</p>
-            <p>{aNumberLog.correctPositionCount}</p>
+        <ul
+          style={{
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+          }}
+        >
+          <li
+            key={index}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              alignItems: "center",
+              justifyItems: "start",
+            }}
+          >
+            <p style={{ paddingLeft: "0.25rem" }}>{aNumberLog.number}</p>
+            <p style={{ paddingLeft: "0.25rem" }}>
+              {" "}
+              {aNumberLog.correctDigitCount}
+            </p>
+            <p style={{ paddingLeft: "0.25rem" }}>
+              {aNumberLog.correctPositionCount}
+            </p>
           </li>
         </ul>
       ))}
