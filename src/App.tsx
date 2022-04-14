@@ -49,7 +49,9 @@ export default function App() {
           onClickEnter={onEnterButtonEvent}
           areButtonsDisabled={isCorrectNumber}
         ></NumberInputSection>
-        {isCorrectNumber ? <p>The number was {numbersLog[0]?.number}</p> : null}
+        {isCorrectNumber ? (
+          <p>The number was {numbersLog[numbersLog.length - 1]?.number}</p>
+        ) : null}
       </main>
       <NumbersHistory numbersLog={numbersLog}></NumbersHistory>
     </section>

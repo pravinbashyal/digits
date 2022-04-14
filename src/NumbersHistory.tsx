@@ -24,7 +24,7 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
       <section style={styles.gridRow}>
         <p>number</p>
         <p>correct digits</p>
-        <p>correct numbers</p>
+        <p>correct positions</p>
       </section>
 
       <ul
