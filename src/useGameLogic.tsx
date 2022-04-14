@@ -1,6 +1,12 @@
 import { useState } from "react";
 
-const generatedNumber = "1234";
+const generateRandomNumberOf = ({ length }: { length: number }) => {
+  return Math.random()
+    .toString()
+    .substring(3, 3 + length);
+};
+
+const generatedNumber = generateRandomNumberOf({ length: 4 });
 
 export function useGameLogic() {
   const [numbersLog, setNumbersLog] = useState<Array<NumberLog>>([]);
@@ -44,7 +50,7 @@ const checkCorrectness = (
   });
 
   generatedNumber.split("").forEach((digit: string, i) => {
-    if (userInputNumber.findIndex((num) => num === digit) === i) {
+    if (generatedNumber[i] === userInputNumber[i]) {
       correctPositionCount += 1;
     }
   });
