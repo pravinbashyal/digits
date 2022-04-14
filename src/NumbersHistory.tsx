@@ -1,11 +1,8 @@
 import React from "react";
 import { borderStyle } from "./styles";
+import { NumberLog } from "./useGameLogic";
 
-export const NumbersHistory = ({
-  numbersLog,
-}: {
-  numbersLog: string[];
-}) => (
+export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
   <aside
     style={{
       padding: "1rem",
@@ -24,10 +21,12 @@ export const NumbersHistory = ({
       Number History
     </h2>
     <section>
-      {numbersLog.map((aNumber, index) => (
+      {numbersLog.map((aNumberLog, index) => (
         <ul>
           <li key={index}>
-            <p>{aNumber}</p>
+            <p>{aNumberLog.number}</p>
+            <p>{aNumberLog.correctDigitCount}</p>
+            <p>{aNumberLog.correctPositionCount}</p>
           </li>
         </ul>
       ))}

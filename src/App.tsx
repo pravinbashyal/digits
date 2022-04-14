@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.css";
-import { numberLength, useNumber } from "./useNumber";
+import { useNumber } from "./useNumber";
 import { NumberDisplaySection } from "./NumberDisplaySection";
 import { NumberInputSection } from "./NumberInputSection";
 import { useKeyboardListeners } from "./useKeyboardListeners";
-import { useNumberLog } from "./useNumberLog";
+import { useGameLogic } from "./useGameLogic";
 import { borderStyle } from "./styles";
 import { NumbersHistory } from "./NumbersHistory";
 
@@ -19,7 +19,7 @@ export default function App() {
   } = useNumber();
 
   const { updateNumberLogWithLatestNumber, numbersLog } =
-    useNumberLog(splittedNumber);
+    useGameLogic(splittedNumber);
 
   const onEnterButtonEvent = () => {
     if (splittedNumber.includes("")) return;
