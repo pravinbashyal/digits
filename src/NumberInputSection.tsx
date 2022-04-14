@@ -1,5 +1,5 @@
 import React, { DOMAttributes, memo } from "react";
-import { digits } from "./App";
+import { digitsAsString } from "./App";
 import { borderStyle } from "./styles";
 
 export const NumberInputSection = memo(
@@ -21,7 +21,7 @@ export const NumberInputSection = memo(
         justifyContent: "center",
       }}
     >
-      {digits.map((digit) => (
+      {digitsAsString.map((digit) => (
         <ADigitInput
           digit={digit}
           onClick={() => addDigitToNumber(digit)}

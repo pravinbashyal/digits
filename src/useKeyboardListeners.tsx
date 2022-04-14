@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { digits } from "./App";
+import { digitsAsString } from "./App";
 
 export const useKeyboardListeners = ({
   addDigitToNumber,
@@ -17,7 +17,7 @@ export const useKeyboardListeners = ({
       if (!e?.key) {
         return;
       }
-      if (digits.includes(e?.key)) {
+      if (digitsAsString.includes(e?.key)) {
         addDigitToNumber(e?.key);
       }
       switch (e.key) {
@@ -28,7 +28,6 @@ export const useKeyboardListeners = ({
           removeDigitFromNumber();
           break;
         default:
-          console.log();
           break;
       }
     },

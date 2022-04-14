@@ -1,12 +1,19 @@
 import { useState } from "react";
 
-const generateRandomNumberOf = ({ length }: { length: number }) => {
-  return Math.random()
-    .toString()
-    .substring(3, 3 + length);
+const generateUniqueRandomNumberOf = ({ length }: { length: number }) => {
+  let numberSplitted: number[] = [];
+  let currentNumber: number | undefined;
+  while (numberSplitted.length < length) {
+    currentNumber = Math.floor(Math.random() * 10);
+    if (numberSplitted.includes(currentNumber)) {
+      continue;
+    }
+    numberSplitted.push(currentNumber);
+  }
+  return numberSplitted.join("");
 };
 
-const generatedNumber = generateRandomNumberOf({ length: 4 });
+const generatedNumber = generateUniqueRandomNumberOf({ length: 4 });
 
 export function useGameLogic() {
   const [numbersLog, setNumbersLog] = useState<Array<NumberLog>>([]);
