@@ -7,10 +7,12 @@ export const NumberInputSection = memo(
     addDigitToNumber,
     removeDigitFromNumber,
     onClickEnter,
+    isGameEnded,
   }: {
     addDigitToNumber: (num: string) => void;
     removeDigitFromNumber: () => void;
     onClickEnter: () => void;
+    isGameEnded: boolean;
   }) => (
     <section
       style={{
@@ -24,13 +26,19 @@ export const NumberInputSection = memo(
           digit={digit}
           onClick={() => addDigitToNumber(digit)}
           key={digit}
+          disabled={isGameEnded}
         ></ADigitInput>
       ))}
       <ADigitInput
         digit="Backspace"
         onClick={removeDigitFromNumber}
+        disabled={isGameEnded}
       ></ADigitInput>
-      <ADigitInput digit="Enter" onClick={onClickEnter}></ADigitInput>
+      <ADigitInput
+        digit="Enter"
+        disabled={isGameEnded}
+        onClick={onClickEnter}
+      ></ADigitInput>
     </section>
   )
 );
@@ -38,23 +46,27 @@ export const NumberInputSection = memo(
 type ADigitInputProps = {
   digit: string;
   onClick: DOMAttributes<HTMLButtonElement>["onClick"];
+  disabled: boolean;
 };
 
-const ADigitInput: React.FC<ADigitInputProps> = memo(({ digit, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        padding: "1.5rem",
-        margin: "1rem",
-        border: borderStyle,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: "0",
-      }}
-    >
-      {digit}
-    </button>
-  );
-});
+const ADigitInput: React.FC<ADigitInputProps> = memo(
+  ({ digit, onClick, disabled }) => {
+    return (
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        style={{
+          padding: "1.5rem",
+          margin: "1rem",
+          border: borderStyle,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "0",
+        }}
+      >
+        {digit}
+      </button>
+    );
+  }
+);

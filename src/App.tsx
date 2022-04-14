@@ -26,11 +26,16 @@ export default function App() {
     resetNumberAndParams();
   };
 
-  useKeyboardListeners({
+  const { removeKeyboardListener } = useKeyboardListeners({
     addDigitToNumber,
     removeDigitFromNumber,
     onPressEnter: onEnterButtonEvent,
+    gameEnded: isCorrectNumber,
   });
+
+  if (isCorrectNumber) {
+    removeKeyboardListener();
+  }
 
   return (
     <section
@@ -67,6 +72,7 @@ export default function App() {
           addDigitToNumber={addDigitToNumber}
           removeDigitFromNumber={removeDigitFromNumber}
           onClickEnter={onEnterButtonEvent}
+          isGameEnded={isCorrectNumber}
         ></NumberInputSection>
         {isCorrectNumber ? <p>The number was {numbersLog[0]?.number}</p> : null}
       </main>

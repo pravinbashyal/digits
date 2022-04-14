@@ -1,17 +1,19 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { digits } from "./App";
 
 export const useKeyboardListeners = ({
   addDigitToNumber,
   removeDigitFromNumber,
   onPressEnter,
+  gameEnded,
 }: {
   addDigitToNumber: (num: string) => void;
   removeDigitFromNumber: () => void;
   onPressEnter: () => void;
+  gameEnded: boolean;
 }) => {
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
       if (!e?.key) {
         return;
       }
@@ -29,9 +31,23 @@ export const useKeyboardListeners = ({
           console.log();
           break;
       }
-    };
-
+    },
+    [addDigitToNumber, onPressEnter, removeDigitFromNumber]
+  );
+  useEffect(() => {
+    if (gameEnded) return;
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [addDigitToNumber, removeDigitFromNumber, onPressEnter]);
+  }, [
+    addDigitToNumber,
+    removeDigitFromNumber,
+    onPressEnter,
+    onKeyDown,
+    gameEnded,
+  ]);
+
+  const removeKeyboardListener = () =>
+    document.removeEventListener("keydown", onKeyDown);
+
+  return { removeKeyboardListener };
 };
