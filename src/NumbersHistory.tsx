@@ -26,23 +26,24 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
         <p>correct digits</p>
         <p>correct numbers</p>
       </section>
-      {numbersLog.map((aNumberLog, index) => (
-        <ul
-          style={{
-            listStyle: "none",
-            margin: 0,
-            padding: 0,
-          }}
-        >
-          <li key={index} style={styles.gridRow}>
+
+      <ul
+        style={{
+          listStyle: "none",
+          margin: 0,
+          padding: 0,
+        }}
+      >
+        {numbersLog.map((aNumberLog) => (
+          <li key={aNumberLog.number} style={styles.gridRow}>
             <p style={styles.logItem}>{aNumberLog.number}</p>
             <p style={styles.logItem}> {aNumberLog.correctDigitCount}</p>
             <p style={{ paddingLeft: "0.25rem" }}>
               {aNumberLog.correctPositionCount}
             </p>
           </li>
-        </ul>
-      ))}
+        ))}
+      </ul>
     </section>
   </aside>
 );

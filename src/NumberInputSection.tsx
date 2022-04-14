@@ -7,12 +7,12 @@ export const NumberInputSection = memo(
     addDigitToNumber,
     removeDigitFromNumber,
     onClickEnter,
-    isGameEnded,
+    areButtonsDisabled,
   }: {
     addDigitToNumber: (num: string) => void;
     removeDigitFromNumber: () => void;
     onClickEnter: () => void;
-    isGameEnded: boolean;
+    areButtonsDisabled: boolean;
   }) => (
     <section
       style={{
@@ -26,17 +26,17 @@ export const NumberInputSection = memo(
           digit={digit}
           onClick={() => addDigitToNumber(digit)}
           key={digit}
-          disabled={isGameEnded}
+          disabled={areButtonsDisabled}
         ></ADigitInput>
       ))}
       <ADigitInput
         digit="Backspace"
         onClick={removeDigitFromNumber}
-        disabled={isGameEnded}
+        disabled={areButtonsDisabled}
       ></ADigitInput>
       <ADigitInput
         digit="Enter"
-        disabled={isGameEnded}
+        disabled={areButtonsDisabled}
         onClick={onClickEnter}
       ></ADigitInput>
     </section>
