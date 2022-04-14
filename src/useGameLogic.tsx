@@ -24,24 +24,25 @@ const checkCorrectness = (splittedNumber: string[], numberToCheck: string) => {
   return { correctPositionCount, correctDigitCount };
 };
 
-export function useGameLogic(splittedNumber: ANumber) {
+export function useGameLogic() {
   const [numbersLog, setNumbersLog] = useState<Array<NumberLog>>([]);
+  const [isCorrectNumber, setIsCorrectNumber] = useState(false);
 
-  const { correctDigitCount, correctPositionCount } = checkCorrectness(
-    splittedNumber,
-    generatedNumber
-  );
-
-  const updateNumberLogWithLatestNumber = () => {
+  const checkNumber = (guessedNumber: string[]) => {
+    const { correctDigitCount, correctPositionCount } = checkCorrectness(
+      guessedNumber,
+      generatedNumber
+    );
+    setIsCorrectNumber(guessedNumber.length === correctPositionCount);
     setNumbersLog((prev) => [
       ...prev,
       {
-        number: splittedNumber.join(""),
+        number: guessedNumber.join(""),
         correctDigitCount,
         correctPositionCount,
       },
     ]);
   };
 
-  return { numbersLog, updateNumberLogWithLatestNumber };
+  return { numbersLog, checkNumber, isCorrectNumber };
 }
