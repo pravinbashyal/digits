@@ -4,8 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --force",
-    "prebuild": "[[ $CI = true ]] && npx pnpm@3 install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
