@@ -42,6 +42,9 @@ export default function App() {
 
   return (
     <section className="container columns" style={styles.app}>
+      <section style={styles.headerSection}>
+        <h1 style={styles.header}>Digits</h1>
+      </section>
       <main className="col-md-12 column col-8" style={styles.mainSection}>
         <NumberDisplaySection numbers={splittedNumber}></NumberDisplaySection>
         <NumberInputSection
@@ -71,11 +74,12 @@ const styles: Styles = {
     minWidth: "100%",
     padding: "0.5rem",
     marginBottom: "1rem",
+    marginLeft: -20,
   },
   header: {
     borderBottom: borderStyle,
     width: "400px",
-    fontSize: "3rem",
+    fontSize: "3.5rem",
   },
   app: {
     margin: "0 auto",
