@@ -7,8 +7,6 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
     <h2
       style={{
         borderBottom: borderStyle,
-        marginLeft: "-1rem",
-        marginRight: "-1rem",
       }}
     >
       Number History

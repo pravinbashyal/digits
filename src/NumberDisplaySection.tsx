@@ -9,6 +9,7 @@ export const NumberDisplaySection = ({ numbers }: { numbers: string[] }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        marginBottom: "1rem",
       }}
     >
       {numbers.map((digit, i) => (
@@ -22,8 +23,8 @@ const NumberItem = ({ digit }: { digit: string }) => {
   return (
     <p
       style={{
-        height: "2rem",
-        width: "2rem",
+        height: "4rem",
+        width: "4rem",
         padding: "1rem",
         margin: "1rem",
         border: borderStyle,

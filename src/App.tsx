@@ -41,9 +41,8 @@ export default function App() {
   }
 
   return (
-    <section className="App container columns grid-lg " style={styles.app}>
-      <main className="col-md-12 column col-8 ">
-        <h1 style={styles.header}>Digits</h1>
+    <section className="container columns" style={styles.app}>
+      <main className="col-md-12 column col-8" style={styles.mainSection}>
         <NumberDisplaySection numbers={splittedNumber}></NumberDisplaySection>
         <NumberInputSection
           addDigitToNumber={addDigitToNumber}
@@ -64,19 +63,27 @@ export default function App() {
 
 const styles: Styles = {
   mainSection: {
-    padding: "1rem",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  headerSection: {
+    minWidth: "100%",
+    padding: "0.5rem",
+    marginBottom: "1rem",
   },
   header: {
     borderBottom: borderStyle,
-    width: "calc(100% + 2rem)",
-    marginLeft: "-1rem",
-    marginRight: "-1rem",
+    width: "400px",
+    fontSize: "3rem",
   },
   app: {
     margin: "0 auto",
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
-    height: "100vh",
+    overflowY: "scroll",
+    minHeight: "100%",
+    maxWidth: "1200px",
   },
 };
