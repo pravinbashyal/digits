@@ -16,12 +16,12 @@ export const NumberInputSection = memo(
   }) => (
     <section
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        maxWidth: "500px",
       }}
     >
-      {digitsAsString.map((digit) => (
+      {digitsAsString.slice(0, digitsAsString.length - 1).map((digit) => (
         <ADigitInput
           digit={digit}
           onClick={() => addDigitToNumber(digit)}
@@ -32,6 +32,11 @@ export const NumberInputSection = memo(
       <ADigitInput
         digit="Backspace"
         onClick={removeDigitFromNumber}
+        disabled={areButtonsDisabled}
+      ></ADigitInput>
+      <ADigitInput
+        digit="0"
+        onClick={() => addDigitToNumber("0")}
         disabled={areButtonsDisabled}
       ></ADigitInput>
       <ADigitInput
@@ -57,12 +62,13 @@ const ADigitInput: React.FC<ADigitInputProps> = memo(
         disabled={disabled}
         style={{
           padding: "1.5rem",
-          margin: "1rem",
+          margin: "0.5rem 1rem",
           border: borderStyle,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           borderRadius: "0",
+          minWidth: "120px",
         }}
       >
         {digit}

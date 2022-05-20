@@ -3,14 +3,7 @@ import { borderStyle } from "./styles";
 import { NumberLog } from "./useGameLogic";
 
 export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
-  <aside
-    style={{
-      padding: "1rem",
-      borderLeft: borderStyle,
-      height: "100%",
-      flex: "2",
-    }}
-  >
+  <>
     <h2
       style={{
         borderBottom: borderStyle,
@@ -45,7 +38,7 @@ export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
         ))}
       </ul>
     </section>
-  </aside>
+  </>
 );
 
 const styles = {

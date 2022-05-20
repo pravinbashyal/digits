@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "spectre.css";
 import { useNumber } from "./useNumber";
 import { NumberDisplaySection } from "./NumberDisplaySection";
 import { NumberInputSection } from "./NumberInputSection";
@@ -9,7 +9,7 @@ import { borderStyle } from "./styles";
 import { NumbersHistory } from "./NumbersHistory";
 import { Styles } from "./types/styles";
 
-export const digitsAsString = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) =>
+export const digitsAsString = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((num) =>
   String(num)
 );
 
@@ -41,8 +41,8 @@ export default function App() {
   }
 
   return (
-    <section className="App" style={styles.app}>
-      <main style={styles.mainSection}>
+    <section className="App container columns grid-lg " style={styles.app}>
+      <main className="col-md-12 column col-8 ">
         <h1 style={styles.header}>Digits</h1>
         <NumberDisplaySection numbers={splittedNumber}></NumberDisplaySection>
         <NumberInputSection
@@ -55,7 +55,9 @@ export default function App() {
           <p>The number was {numbersLog[numbersLog.length - 1]?.number}</p>
         ) : null}
       </main>
-      <NumbersHistory numbersLog={numbersLog}></NumbersHistory>
+      <aside className="col-md-12 column col-4 ">
+        <NumbersHistory numbersLog={numbersLog}></NumbersHistory>
+      </aside>
     </section>
   );
 }
@@ -63,11 +65,6 @@ export default function App() {
 const styles: Styles = {
   mainSection: {
     padding: "1rem",
-    display: "flex",
-    flex: "8",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
   },
   header: {
     borderBottom: borderStyle,
@@ -76,6 +73,7 @@ const styles: Styles = {
     marginRight: "-1rem",
   },
   app: {
+    margin: "0 auto",
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-start",
