@@ -1,6 +1,6 @@
 import React, { DOMAttributes, memo } from "react";
-import { digitsAsString } from "./App";
-import { borderStyle } from "./styles";
+import { digitsAsString } from "../constants/digitsAsString";
+import { borderStyle } from "../styles";
 
 export const NumberInputSection = memo(
   ({

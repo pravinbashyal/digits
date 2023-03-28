@@ -1,8 +1,12 @@
 import React from "react";
-import { borderStyle } from "./styles";
-import { NumberLog } from "./useGameLogic";
+import { borderStyle } from "../styles";
+import { NumberHistoryItem } from "../hooks/useNumbersHistory";
 
-export const NumbersHistory = ({ numbersLog }: { numbersLog: NumberLog[] }) => (
+export const NumbersHistory = ({
+  numbersLog,
+}: {
+  numbersLog: NumberHistoryItem[];
+}) => (
   <>
     <h2
       style={{

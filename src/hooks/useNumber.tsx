@@ -7,7 +7,7 @@ export const numberLength = 4;
 const makeDefaultNumber = () => Array(numberLength).fill("");
 
 let currentIndex = -1;
-export const useNumber = () => {
+export const useCurrentInputNumber = () => {
   const increaseIndex = () => {
     currentIndex = currentIndex + 1;
   };
@@ -19,7 +19,7 @@ export const useNumber = () => {
     makeDefaultNumber()
   );
 
-  const addDigitToNumber = useCallback((digit: string) => {
+  const addDigitToInputNumber = useCallback((digit: string) => {
     if (currentIndex === numberLength - 1) return;
     increaseIndex();
     setSplittedNumber((prevNumber) => {
@@ -28,22 +28,22 @@ export const useNumber = () => {
     });
   }, []);
 
-  const removeDigitFromNumber = useCallback(() => {
+  const removeDigitFromInputNumber = useCallback(() => {
     if (currentIndex < 0) return;
     splittedNumber[currentIndex] = "";
     setSplittedNumber([...splittedNumber]);
     decreaseIndex();
   }, [splittedNumber]);
 
-  const resetNumberAndParams = () => {
+  const clearInputNumber = () => {
     currentIndex = -1;
     setSplittedNumber(makeDefaultNumber());
   };
 
   return {
     splittedNumber,
-    addDigitToNumber,
-    removeDigitFromNumber,
-    resetNumberAndParams,
+    addDigitToInputNumber,
+    removeDigitFromInputNumber,
+    clearInputNumber,
   };
 };

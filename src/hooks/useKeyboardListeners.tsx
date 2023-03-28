@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { digitsAsString } from "./App";
+import { digitsAsString } from "../constants/digitsAsString";
 
 export const useKeyboardListeners = ({
   addDigitToNumber,
@@ -37,14 +37,7 @@ export const useKeyboardListeners = ({
     if (gameEnded) return;
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [
-    addDigitToNumber,
-    removeDigitFromNumber,
-    onPressEnter,
-    onKeyDown,
-    gameEnded,
-  ]);
-
+  }, [gameEnded, onPressEnter, addDigitToNumber, removeDigitFromNumber]);
   const removeKeyboardListener = () =>
     document.removeEventListener("keydown", onKeyDown);
 

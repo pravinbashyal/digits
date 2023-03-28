@@ -1,22 +1,6 @@
 import { useState } from "react";
 
-const generateUniqueRandomNumberOf = ({ length }: { length: number }) => {
-  let numberSplitted: number[] = [];
-  let currentNumber: number | undefined;
-  while (numberSplitted.length < length) {
-    currentNumber = Math.floor(Math.random() * 10);
-    if (numberSplitted.includes(currentNumber)) {
-      continue;
-    }
-    numberSplitted.push(currentNumber);
-  }
-  return numberSplitted.join("");
-};
-
-const generatedNumber = generateUniqueRandomNumberOf({ length: 4 });
-
-export function useGameLogic() {
-  const [numbersLog, setNumbersLog] = useState<Array<NumberLog>>([]);
+export function useGameLogic(generatedNumber: string) {
   const [isCorrectNumber, setIsCorrectNumber] = useState(false);
 
   const checkNumber = (userInputNumber: string[]) => {
@@ -25,17 +9,14 @@ export function useGameLogic() {
       generatedNumber
     );
     setIsCorrectNumber(userInputNumber.length === correctPositionCount);
-    setNumbersLog((prev) => [
-      ...prev,
-      {
-        number: userInputNumber.join(""),
-        correctDigitCount,
-        correctPositionCount,
-      },
-    ]);
+    return { correctDigitCount, correctPositionCount };
   };
 
-  return { numbersLog, checkNumber, isCorrectNumber };
+  const resetLogic = () => {
+    setIsCorrectNumber(false);
+  };
+
+  return { checkNumber, isCorrectNumber, resetLogic };
 }
 
 const checkCorrectness = (
@@ -56,18 +37,12 @@ const checkCorrectness = (
     }
   });
 
-  generatedNumber.split("").forEach((digit: string, i) => {
+  generatedNumber.split("").forEach((_, i) => {
     if (generatedNumber[i] === userInputNumber[i]) {
       correctPositionCount += 1;
     }
   });
   return { correctPositionCount, correctDigitCount };
-};
-
-export type NumberLog = {
-  number: string;
-  correctDigitCount: number;
-  correctPositionCount: number;
 };
 
 const withoutFirstOccurence = ({

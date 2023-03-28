@@ -1,5 +1,5 @@
 import React from "react";
-import { borderStyle } from "./styles";
+import { borderStyle } from "../styles";
 
 export const NumberDisplaySection = ({ numbers }: { numbers: string[] }) => {
   return (
