@@ -1,8 +1,9 @@
 import { useUser } from "@supabase/auth-helpers-react";
+import { useNavigate } from "react-router-dom";
 import { SignIn } from "../components/SignIn";
 import { useCreateGameRemote } from "./useCreateGameRemote";
 
-export function DoublePlayer() {
+export function CreateDoublePlayerGame() {
   const user = useUser();
 
   if (!user)
@@ -23,8 +24,13 @@ export function DoublePlayer() {
 
 function CreateGameForm() {
   const { game, createGame } = useCreateGameRemote();
+  const navigate = useNavigate();
   return game ? (
-    <section>{game.game_id}</section>
+    <section>
+      <button onClick={() => navigate(`/game/${game.game_id}`)}>
+        go to game
+      </button>
+    </section>
   ) : (
     <form
       onSubmit={(e) => {
