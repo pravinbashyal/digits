@@ -3,13 +3,17 @@ import { Auth as SupaAuth } from "@supabase/auth-ui-react";
 import { useState } from "react";
 import { supabaseClient } from "../infra-tools/supabaseClient";
 
-export default function Auth() {
+export function Auth() {
   const session = useSession();
+  const user = session?.user;
   const signOut = () => {
     supabaseClient.auth.signOut();
   };
   return session ? (
-    <button onClick={() => signOut()}>Sign Out</button>
+    <section>
+      <p>{user.email}</p>
+      <button onClick={() => signOut()}>Sign Out</button>
+    </section>
   ) : (
     <SignIn></SignIn>
   );

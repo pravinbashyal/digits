@@ -1,4 +1,3 @@
-import React from "react";
 import { borderStyle } from "../styles";
 import { Styles } from "../types/styles";
 import { useCurrentInputNumber, numberLength } from "../hooks/useNumber";
