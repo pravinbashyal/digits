@@ -3,10 +3,11 @@ import { Auth as SupaAuth } from "@supabase/auth-ui-react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "spectre.css";
 import { Auth } from "./components/Auth";
-import { DoublePlayer } from "./pages/DoublePlayer";
+import { CreateDoublePlayerGame } from "./pages/CreateDoublePlayerGame";
 import { supabaseClient } from "./infra-tools/supabaseClient";
 import { Game } from "./pages/Game";
 import { Landing } from "./pages/Landing";
+import { DoublePlayerGame } from "./pages/DoublePlayerGame";
 
 export default function App() {
   return (
@@ -20,7 +21,11 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Landing />}></Route>
               <Route path="/single-player" element={<Game />}></Route>
-              <Route path="/double-player" element={<DoublePlayer />}></Route>
+              <Route
+                path="/double-player"
+                element={<CreateDoublePlayerGame />}
+              ></Route>
+              <Route path="/game/:id" element={<DoublePlayerGame />}></Route>
             </Routes>
           </BrowserRouter>
         </main>

@@ -1,27 +1,16 @@
-import { User, useUser } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { supabaseClient } from "../infra-tools/supabaseClient";
 import { unboxFirstItem } from "./unboxFirstItem";
+import { useCreateUserSession } from "../hooks/useCreateUserSession";
 
 export function useCreateGameRemote() {
   const [isLoading, setIsLoading] = useState(false);
   const [game, setGame] = useState(null);
-  const user = useUser();
+  const { createUserSession } = useCreateUserSession();
   const createGame = async () => {
     setIsLoading(true);
-    const { data: userSession, error: userSessionCreationError } =
-      await supabaseClient
-        .from("user_session")
-        .insert({
-          user_id: user.id,
-        })
-        .select("id");
-    if (userSessionCreationError) {
-      console.error({ error: userSessionCreationError });
-      return;
-    }
-    const { id: userSessionId } = unboxFirstItem(userSession);
-
+    const userSession = await createUserSession();
+    const { id: userSessionId } = userSession;
     const {
       data: games,
       error: gameCreationError,
