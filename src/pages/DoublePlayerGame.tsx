@@ -1,67 +1,45 @@
 import { Loading } from "../components/Loading";
 import { useParams } from "react-router-dom";
-import { supabaseClient } from "../infra-tools/supabaseClient";
-import { useEffect, useState } from "react";
-import { Database } from "../types/supabase";
 import { CopyToClipboard } from "../components/CopyToClipboard";
-import { unboxFirstItem } from "./unboxFirstItem";
-import { PostgrestError } from "@supabase/supabase-js";
+import { Game } from "./Game";
+import { useFetchGame } from "../hooks/useFetchGame";
+import { useWatchForOpponentToJoin } from "./useWatchForOpponentToJoin";
 
 export function DoublePlayerGame() {
   const { id } = useParams();
-  const { game, loading, error } = useFetchGame(id);
+  const { game, loading: loadingGame, error: gameLoadError } = useFetchGame(id);
 
-  if (loading) {
+  let bothUsersAlreadyPresent = Boolean(game?.user_2_session);
+
+  if (loadingGame) {
     return <Loading></Loading>;
   }
 
-  if (error) {
-    return <p>{error?.message}</p>;
+  if (gameLoadError) {
+    return <p>{gameLoadError?.message}</p>;
   }
 
   if (!game) {
     return <p>game doesnt exist</p>;
   }
 
-  return (
-    <section>
-      {game && !game.user_2_session ? (
-        <section>
-          <h3></h3>
-          invite to this game
-          <CopyToClipboard
-            text={`http://localhost:5174/join-game/${game.game_id}`}
-          />
-          <p>waiting for opponent to join</p>
-          <Loading></Loading>
-        </section>
-      ) : null}
-    </section>
-  );
+  if (!bothUsersAlreadyPresent) {
+    return <WaitingToJoin gameId={game.game_id} />;
+  }
+
+  return <Game />;
 }
 
-function useFetchGame(id: string) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<PostgrestError | null>(null);
-  const [game, setGame] =
-    useState<Database["public"]["Tables"]["game"]["Row"]>(null);
-  useEffect(() => {
-    const fetchGame = async () => {
-      setLoading(true);
-      const { data: game, error } = await supabaseClient
-        .from("game")
-        .select("*")
+function WaitingToJoin({ gameId }: { gameId: string | null }) {
+  useWatchForOpponentToJoin(gameId);
 
-        // Filters
-        .eq("game_id", id);
-      setLoading(false);
-      if (error) {
-        setError(error);
-        return;
-      }
-      setGame(unboxFirstItem(game));
-    };
-    fetchGame();
-  }, [id]);
-  return { game, loading, error };
+  return (
+    <section>
+      <h3>invite to this game</h3>
+      <CopyToClipboard text={`http://localhost:5174/join-game/${gameId}`} />
+
+      <p>waiting for opponent to join</p>
+      <Loading></Loading>
+    </section>
+  );
 }
