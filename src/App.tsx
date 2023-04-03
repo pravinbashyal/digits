@@ -8,6 +8,7 @@ import { supabaseClient } from "./infra-tools/supabaseClient";
 import { Game } from "./pages/Game";
 import { Landing } from "./pages/Landing";
 import { DoublePlayerGame } from "./pages/DoublePlayerGame";
+import { JoinGame } from "./pages/JoinGame";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
                 element={<CreateDoublePlayerGame />}
               ></Route>
               <Route path="/game/:id" element={<DoublePlayerGame />}></Route>
+              <Route path="/join-game/:gameId" element={<JoinGame />}></Route>
             </Routes>
           </BrowserRouter>
         </main>

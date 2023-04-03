@@ -11,17 +11,12 @@ export function useCreateGameRemote() {
     setIsLoading(true);
     const userSession = await createUserSession();
     const { id: userSessionId } = userSession;
-    const {
-      data: games,
-      error: gameCreationError,
-      statusText,
-    } = await supabaseClient
+    const { data: games, error: gameCreationError } = await supabaseClient
       .from("game")
       .insert({
         user_1_session: userSessionId,
       })
       .select("*");
-    console.log({ statusText });
     if (gameCreationError) {
       console.error({ error: gameCreationError });
       return;

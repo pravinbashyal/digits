@@ -16,7 +16,7 @@ export function useCreateUserSession() {
         .insert({
           user_id: user.id,
         })
-        .select("id");
+        .select("*");
     setLoading(false);
     if (userSessionCreationError) {
       setError(userSessionCreationError);

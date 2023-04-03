@@ -1,5 +1,5 @@
 import { Loading } from "../components/Loading";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { supabaseClient } from "../infra-tools/supabaseClient";
 import { useEffect, useState } from "react";
 import { Database } from "../types/supabase";
@@ -9,17 +9,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 
 export function DoublePlayerGame() {
   const { id } = useParams();
-  const { invite } = useSearchParams();
   const { game, loading, error } = useFetchGame(id);
-  function useJoinGame(id) {
-    const user = useUser();
-  }
-
-  const { joinGame, loading, error } = useJoinGame(id);
-
-  if (invite) {
-    joinGame();
-  }
 
   if (loading) {
     return <Loading></Loading>;
@@ -40,7 +30,7 @@ export function DoublePlayerGame() {
           <h3></h3>
           invite to this game
           <CopyToClipboard
-            text={`http://localhost:5174/game/${game.game_id}?invite=true`}
+            text={`http://localhost:5174/join-game/${game.game_id}`}
           />
           <p>waiting for opponent to join</p>
           <Loading></Loading>
@@ -69,7 +59,6 @@ function useFetchGame(id: string) {
         setError(error);
         return;
       }
-      console.log({ game, error });
       setGame(unboxFirstItem(game));
     };
     fetchGame();

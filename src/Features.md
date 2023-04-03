@@ -1,2 +1,6 @@
+- [ ] join game
+  - [ ] initialize game with session
+  - [ ] check if the current user's session belongs to current user
+  - [ ] join if the current user session is not the same
 - [ ] show numbers
 - [ ] show pressed number below that could be pressed
