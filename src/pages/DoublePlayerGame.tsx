@@ -2,14 +2,17 @@ import { Loading } from "../components/Loading";
 import { useParams } from "react-router-dom";
 import { CopyToClipboard } from "../components/CopyToClipboard";
 import { Game } from "./Game";
-import { useFetchGame } from "../hooks/useFetchGame";
-import { useWatchForOpponentToJoin } from "./useWatchForOpponentToJoin";
+import { useReactiveFetchGame } from "../hooks/useFetchGame";
 
 export function DoublePlayerGame() {
   const { id } = useParams();
-  const { game, loading: loadingGame, error: gameLoadError } = useFetchGame(id);
+  const {
+    game,
+    loading: loadingGame,
+    error: gameLoadError,
+  } = useReactiveFetchGame(id);
 
-  let bothUsersAlreadyPresent = Boolean(game?.user_2_session);
+  const bothUsersAlreadyPresent = Boolean(game?.user_2_session);
 
   if (loadingGame) {
     return <Loading></Loading>;
@@ -31,8 +34,6 @@ export function DoublePlayerGame() {
 }
 
 function WaitingToJoin({ gameId }: { gameId: string | null }) {
-  useWatchForOpponentToJoin(gameId);
-
   return (
     <section>
       <h3>invite to this game</h3>
