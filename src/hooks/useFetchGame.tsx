@@ -1,7 +1,7 @@
 import { supabaseClient } from "../infra-tools/supabaseClient";
 import { useEffect, useState } from "react";
 import { Database } from "../types/supabase";
-import { unboxFirstItem } from "../pages/unboxFirstItem";
+import { unboxFirstItem } from "../utils/unboxFirstItem";
 import { PostgrestError, RealtimeChannel } from "@supabase/supabase-js";
 
 export function useReactiveFetchGame(id: string) {

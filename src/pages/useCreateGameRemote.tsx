@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { supabaseClient } from "../infra-tools/supabaseClient";
-import { unboxFirstItem } from "./unboxFirstItem";
+import { unboxFirstItem } from "../utils/unboxFirstItem";
 import { useCreateUserSession } from "../hooks/useCreateUserSession";
 
 export function useCreateGameRemote() {

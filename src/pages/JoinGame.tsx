@@ -5,7 +5,7 @@ import { SignIn } from "../components/SignIn";
 import { useCreateUserSession } from "../hooks/useCreateUserSession";
 import { supabaseClient } from "../infra-tools/supabaseClient";
 import { Database } from "../types/supabase";
-import { unboxFirstItem } from "./unboxFirstItem";
+import { unboxFirstItem } from "../utils/unboxFirstItem";
 
 export function JoinGame() {
   const user = useUser();

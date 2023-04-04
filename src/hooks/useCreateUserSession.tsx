@@ -2,7 +2,7 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { PostgrestError } from "@supabase/supabase-js";
 import { useState } from "react";
 import { supabaseClient } from "../infra-tools/supabaseClient";
-import { unboxFirstItem } from "../pages/unboxFirstItem";
+import { unboxFirstItem } from "../utils/unboxFirstItem";
 
 export function useCreateUserSession() {
   const user = useUser();
