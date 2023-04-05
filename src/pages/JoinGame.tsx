@@ -52,6 +52,7 @@ function useJoinGame(gameId: string) {
       const { id: userSessionId } = await createUserSession();
       const { error: gameUpdateError } = await updateGame(game.id, {
         user_2_session: userSessionId,
+        active_session_id: game.user_1_session,
       });
       if (gameUpdateError) {
         console.error(gameUpdateError.message);
@@ -74,6 +75,7 @@ async function gameById(gameId: string) {
           first_user_session:user_session!game_user_1_session_fkey (
             *
           ),
+            user_1_session,
             user_2_session
           `
     )

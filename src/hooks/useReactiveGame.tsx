@@ -4,23 +4,31 @@ import { supabaseClient } from "../infra-tools/supabaseClient";
 import { Database } from "../types/supabase";
 import { unboxFirstItem } from "../utils/unboxFirstItem";
 
-export type Game = Database["public"]["Tables"]["game"]["Row"];
+export type GameType = Database["public"]["Tables"]["game"]["Row"] & {
+  first_user_session?: {
+    id: number;
+    user_id: string;
+  };
+  second_user_session?: {
+    id: number;
+    user_id: string;
+  };
+};
 
 export function useReactiveGame(gameId: string) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<PostgrestError | null>(null);
-  const [game, setGame] = useState<Game | null>(null);
+  const [game, setGame] = useState<GameType | null>(null);
   const [watchEvents, setWatchEvents] = useState<
-    Array<(item: Partial<Game>) => void>
+    Array<(item: Partial<GameType>) => void>
   >([]);
 
-  const addWatchFor = (eventCallback: (item: Game) => void) => {
+  const addWatchFor = (eventCallback: (item: GameType) => void) => {
     setWatchEvents((prev) => [...prev, eventCallback]);
   };
 
   let watchGameChanges: RealtimeChannel;
   useEffect(() => {
-    console.log({ watchGameChanges });
     if (watchGameChanges) return;
     watchGameChanges = supabaseClient
       .channel("game-update-channel")
@@ -33,9 +41,11 @@ export function useReactiveGame(gameId: string) {
           filter: `game_id=eq.${gameId}`,
         },
         (payload) => {
-          const updatedGame = payload.new as Game;
-          console.log({ game, updatedGame });
-          setGame(updatedGame);
+          const updatedGame = payload.new as GameType;
+          setGame((prev) => ({
+            ...prev,
+            ...updatedGame,
+          }));
           watchEvents.forEach((watchEvents) => watchEvents(updatedGame));
         }
       )
@@ -46,12 +56,27 @@ export function useReactiveGame(gameId: string) {
     };
   }, []);
 
+  let isFetched = false;
   useEffect(() => {
+    if (isFetched) return;
+    isFetched = true;
     const fetchGame = async () => {
       setLoading(true);
       const { data: game, error } = await supabaseClient
         .from("game")
-        .select("*")
+        .select(
+          `
+          *,
+          first_user_session:user_session!game_user_1_session_fkey (
+            id,
+            user_id
+          ),
+            second_user_session:user_session!game_user_2_session_fkey (
+              id,
+              user_id
+            )
+          `
+        )
 
         // Filters
         .eq("game_id", gameId);

@@ -3,15 +3,14 @@ import { useParams } from "react-router-dom";
 import { CopyToClipboard } from "../components/CopyToClipboard";
 import { RemoteVsGame } from "../components/RemoteVsGame";
 import { useReactiveGame } from "../hooks/useReactiveGame";
-import { GameEventBusProvider } from "../hooks/useGameEventBus";
+import { GameProvider } from "../hooks/useGame";
 
 export function DoublePlayerGame() {
   const { id } = useParams();
-  const { game, loading, error, addWatchFor } = useReactiveGame(id);
-  console.log({ game });
+  const { game, loading, error } = useReactiveGame(id);
 
   return (
-    <GameEventBusProvider addWatchFor={addWatchFor}>
+    <GameProvider game={game}>
       <DoublePlayerGameRoot
         {...{
           game,
@@ -19,7 +18,7 @@ export function DoublePlayerGame() {
           error,
         }}
       />
-    </GameEventBusProvider>
+    </GameProvider>
   );
 }
 
