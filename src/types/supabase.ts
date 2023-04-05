@@ -11,6 +11,7 @@ export interface Database {
     Tables: {
       game: {
         Row: {
+          active_session_id: number | null
           created_at: string
           game_id: string
           id: number
@@ -18,6 +19,7 @@ export interface Database {
           user_2_session: number | null
         }
         Insert: {
+          active_session_id?: number | null
           created_at?: string
           game_id?: string
           id?: number
@@ -25,6 +27,7 @@ export interface Database {
           user_2_session?: number | null
         }
         Update: {
+          active_session_id?: number | null
           created_at?: string
           game_id?: string
           id?: number
@@ -35,18 +38,21 @@ export interface Database {
       user_session: {
         Row: {
           created_at: string | null
+          game_history: Json[]
           id: number
           is_active: boolean
           user_id: string
         }
         Insert: {
           created_at?: string | null
+          game_history?: Json[]
           id?: number
           is_active?: boolean
           user_id: string
         }
         Update: {
           created_at?: string | null
+          game_history?: Json[]
           id?: number
           is_active?: boolean
           user_id?: string
