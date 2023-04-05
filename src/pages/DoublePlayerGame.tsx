@@ -1,18 +1,35 @@
 import { Loading } from "../components/Loading";
 import { useParams } from "react-router-dom";
 import { CopyToClipboard } from "../components/CopyToClipboard";
-import { Game } from "./Game";
-import { useReactiveFetchGame } from "../hooks/useFetchGame";
+import { RemoteVsGame } from "../components/RemoteVsGame";
+import { useReactiveGame } from "../hooks/useReactiveGame";
+import { GameEventBusProvider } from "../hooks/useGameEventBus";
 
 export function DoublePlayerGame() {
   const { id } = useParams();
-  const {
-    game,
-    loading: loadingGame,
-    error: gameLoadError,
-  } = useReactiveFetchGame(id);
+  const { game, loading, error, addWatchFor } = useReactiveGame(id);
+  console.log({ game });
 
+  return (
+    <GameEventBusProvider addWatchFor={addWatchFor}>
+      <DoublePlayerGameRoot
+        {...{
+          game,
+          loading,
+          error,
+        }}
+      />
+    </GameEventBusProvider>
+  );
+}
+
+function DoublePlayerGameRoot({
+  game,
+  loading: loadingGame,
+  error: gameLoadError,
+}) {
   const bothUsersAlreadyPresent = Boolean(game?.user_2_session);
+  // const addWatchFor =
 
   if (loadingGame) {
     return <Loading></Loading>;
@@ -30,7 +47,7 @@ export function DoublePlayerGame() {
     return <WaitingToJoin gameId={game.game_id} />;
   }
 
-  return <Game />;
+  return <RemoteVsGame />;
 }
 
 function WaitingToJoin({ gameId }: { gameId: string | null }) {

@@ -1,17 +1,26 @@
-import { supabaseClient } from "../infra-tools/supabaseClient";
+import { PostgrestError, RealtimeChannel } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import { supabaseClient } from "../infra-tools/supabaseClient";
 import { Database } from "../types/supabase";
 import { unboxFirstItem } from "../utils/unboxFirstItem";
-import { PostgrestError, RealtimeChannel } from "@supabase/supabase-js";
 
-export function useReactiveFetchGame(id: string) {
+export type Game = Database["public"]["Tables"]["game"]["Row"];
+
+export function useReactiveGame(gameId: string) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<PostgrestError | null>(null);
-  const [game, setGame] =
-    useState<Database["public"]["Tables"]["game"]["Row"]>(null);
-  let watchGameChanges: RealtimeChannel;
+  const [game, setGame] = useState<Game | null>(null);
+  const [watchEvents, setWatchEvents] = useState<
+    Array<(item: Partial<Game>) => void>
+  >([]);
 
+  const addWatchFor = (eventCallback: (item: Game) => void) => {
+    setWatchEvents((prev) => [...prev, eventCallback]);
+  };
+
+  let watchGameChanges: RealtimeChannel;
   useEffect(() => {
+    console.log({ watchGameChanges });
     if (watchGameChanges) return;
     watchGameChanges = supabaseClient
       .channel("game-update-channel")
@@ -21,15 +30,19 @@ export function useReactiveFetchGame(id: string) {
           event: "UPDATE",
           schema: "public",
           table: "game",
-          filter: `game_id=eq.${id}`,
+          filter: `game_id=eq.${gameId}`,
         },
         (payload) => {
-          setGame(payload.new as any);
+          const updatedGame = payload.new as Game;
+          console.log({ game, updatedGame });
+          setGame(updatedGame);
+          watchEvents.forEach((watchEvents) => watchEvents(updatedGame));
         }
       )
       .subscribe();
     return () => {
       watchGameChanges.unsubscribe();
+      watchGameChanges = undefined;
     };
   }, []);
 
@@ -41,7 +54,7 @@ export function useReactiveFetchGame(id: string) {
         .select("*")
 
         // Filters
-        .eq("game_id", id);
+        .eq("game_id", gameId);
       setLoading(false);
       if (error) {
         setError(error);
@@ -50,6 +63,6 @@ export function useReactiveFetchGame(id: string) {
       setGame(unboxFirstItem(game));
     };
     fetchGame();
-  }, [id]);
-  return { game, loading, error };
+  }, [gameId]);
+  return { addWatchFor, game, loading, error };
 }
