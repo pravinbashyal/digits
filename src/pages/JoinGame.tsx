@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { SignIn } from "../components/SignIn";
 import { useCreateUserSession } from "../hooks/useCreateUserSession";
 import { supabaseClient } from "../infra-tools/supabaseClient";
-import { Database } from "../types/supabase";
 import { unboxFirstItem } from "../utils/unboxFirstItem";
+import { updateGame } from "./updateGame";
 
 export function JoinGame() {
   const user = useUser();
@@ -82,16 +82,4 @@ async function gameById(gameId: string) {
     .eq("game_id", gameId);
   const game = unboxFirstItem(data);
   return { game, error };
-}
-
-async function updateGame(
-  id: number,
-  partial: Partial<Database["public"]["Tables"]["game"]["Row"]>
-) {
-  const { data, error } = await supabaseClient
-    .from("game")
-    .update(partial)
-    .eq("id", id)
-    .select("*");
-  return { game: unboxFirstItem(data), error };
 }
