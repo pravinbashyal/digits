@@ -1,7 +1,7 @@
 import { numberLength } from "../hooks/useNumber";
 import { useGameLogic } from "../hooks/useGameLogic";
 import { useNumbersHistory } from "../hooks/useNumbersHistory";
-import { generateUniqueRandomNumberOf } from "../hooks/useGeneratedNumber";
+import { generateUniqueRandomNumberOf } from "../hooks/generateUniqueRandomNumberOf";
 import { GameRoot } from "./GameRoot";
 import { useRef } from "react";
 
