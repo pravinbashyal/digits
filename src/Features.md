@@ -3,13 +3,13 @@
   - [x] check if the current user's session belongs to current user
   - [x] join if the current user session is not the same
 - [ ] show numbers
+- [ ] disable input while opponent is typing
 - [ ] show pressed number below that could be pressed
-- [ ] show opponent:
-  - [ ] show opponents history
+- [x] show opponent:
+  - [x] show opponents history
   - [ ] show opponents inputs
 - [ ] show time:
   - [ ] show opponent's time
-- [ ] show opponent's time
 - [ ] show number of attempts
   - [ ] limit attempts
 - [ ] customize game
