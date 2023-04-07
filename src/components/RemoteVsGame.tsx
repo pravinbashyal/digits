@@ -2,7 +2,7 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { useRef } from "react";
 import { useGame } from "../hooks/useGame";
 import { useGameLogic } from "../hooks/useGameLogic";
-import { generateUniqueRandomNumberOf } from "../hooks/generateUniqueRandomNumberOf";
+import { generateUniqueRandomNumberOf } from "../utils/generateUniqueRandomNumberOf";
 import { numberLength } from "../hooks/useNumber";
 import { useNumbersHistory } from "../hooks/useNumbersHistory";
 import { GameType } from "../hooks/useReactiveGame";
