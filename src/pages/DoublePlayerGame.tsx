@@ -12,17 +12,19 @@ export function DoublePlayerGame() {
   const { game, loading, error } = useReactiveGame(id);
   const user = useUser();
 
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
   if (!game) {
     return <p>game doesnt exist</p>;
   }
-  const { yourSession, yourOpponentSession } = identifySessions(game, user);
 
-  if (!yourSession) {
+  const { yourSessionId, yourOpponentSessionId, yourSession } =
+    identifySessions(game, user);
+
+  if (!yourSessionId) {
     return <section>Not your game</section>;
-  }
-
-  if (loading) {
-    return <Loading></Loading>;
   }
 
   if (error) {
@@ -37,9 +39,10 @@ export function DoublePlayerGame() {
     <GameProvider game={game}>
       <RemoteVsGame
         {...{
+          theNumber: yourSession.the_number,
           game,
-          yourSession,
-          yourOpponentSession,
+          yourSessionId,
+          yourOpponentSessionId,
         }}
       />
     </GameProvider>
@@ -50,10 +53,13 @@ function WaitingToJoin({ gameId }: { gameId: string | null }) {
   return (
     <section>
       <h3>invite to this game</h3>
-      <CopyToClipboard text={`http://localhost:5174/join-game/${gameId}`} />
+      <CopyToClipboard text={invitationUrl(gameId)} />
 
       <p>waiting for opponent to join</p>
       <Loading></Loading>
     </section>
   );
 }
+
+const invitationUrl = (gameId: string) =>
+  `${window.origin}/join-game/${gameId}`;

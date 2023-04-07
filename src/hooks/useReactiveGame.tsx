@@ -8,10 +8,12 @@ export type GameType = Database["public"]["Tables"]["game"]["Row"] & {
   first_user_session?: {
     id: number;
     user_id: string;
+    the_number: string;
   };
   second_user_session?: {
     id: number;
     user_id: string;
+    the_number: string;
   };
 };
 
@@ -62,11 +64,13 @@ export function useReactiveGame(gameId: string) {
           *,
           first_user_session:user_session!game_user_1_session_fkey (
             id,
-            user_id
+            user_id,
+            the_number
           ),
             second_user_session:user_session!game_user_2_session_fkey (
               id,
-              user_id
+              user_id,
+              the_number
             )
           `
         )

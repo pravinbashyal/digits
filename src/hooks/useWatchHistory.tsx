@@ -45,7 +45,7 @@ export function useWatchHistory({
   }, [sessionId]);
 }
 
-const remoteHistoryToLocalHistory = (
+export const remoteHistoryToLocalHistory = (
   remoteHistory: RemoteHistory
 ): HistoryItem => {
   return {

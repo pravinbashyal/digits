@@ -6,8 +6,9 @@ export function identifySessions(
   game: GameType,
   user: User
 ): {
-  yourSession?: { id: number; user_id: string };
-  yourOpponentSession?: { id: number; user_id: string };
+  yourSessionId?: number;
+  yourOpponentSessionId?: number;
+  yourSession?: { id: number; user_id: string; the_number: string };
 } {
   const yourSession =
     unboxFirstItem(
@@ -16,13 +17,14 @@ export function identifySessions(
       )
     ) || null;
   if (!yourSession) return {};
-  const yourOpponentSession = unboxFirstItem(
-    [game.first_user_session, game.second_user_session].filter(
-      (session) => session?.id !== yourSession.id
+  const yourOpponentSessionId = unboxFirstItem(
+    [game.user_1_session, game.user_2_session].filter(
+      (sessionId) => sessionId !== yourSession.id
     )
   );
   return {
+    yourSessionId: yourSession?.id,
+    yourOpponentSessionId: yourOpponentSessionId,
     yourSession,
-    yourOpponentSession,
   };
 }

@@ -64,23 +64,23 @@ export interface Database {
       user_session: {
         Row: {
           created_at: string | null
-          game_history: Json[]
           id: number
           is_active: boolean
+          the_number: string
           user_id: string
         }
         Insert: {
           created_at?: string | null
-          game_history?: Json[]
           id?: number
           is_active?: boolean
+          the_number?: string
           user_id: string
         }
         Update: {
           created_at?: string | null
-          game_history?: Json[]
           id?: number
           is_active?: boolean
+          the_number?: string
           user_id?: string
         }
       }

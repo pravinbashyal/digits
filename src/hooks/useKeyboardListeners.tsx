@@ -6,15 +6,17 @@ export const useKeyboardListeners = ({
   removeDigitFromNumber,
   onPressEnter,
   gameEnded,
+  disableListen,
 }: {
   addDigitToNumber: (num: string) => void;
   removeDigitFromNumber: () => void;
   onPressEnter: () => void;
   gameEnded: boolean;
+  disableListen: boolean;
 }) => {
   const onKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (!e?.key) {
+      if (!e?.key || disableListen) {
         return;
       }
       if (digitsAsString.includes(e?.key)) {

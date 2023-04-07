@@ -1,7 +1,7 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import { useNavigate } from "react-router-dom";
 import { SignIn } from "../components/SignIn";
-import { useCreateGameRemote } from "./useCreateGameRemote";
+import { useCreateGameRemote } from "../hooks/useCreateGameRemote";
 
 export function CreateDoublePlayerGame() {
   const user = useUser();

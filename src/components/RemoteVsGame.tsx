@@ -1,7 +1,4 @@
-import { useRef } from "react";
 import { useGameLogic } from "../hooks/useGameLogic";
-import { generateUniqueRandomNumberOf } from "../utils/generateUniqueRandomNumberOf";
-import { numberLength } from "../hooks/useNumber";
 import { HistoryItem, useHistory } from "../hooks/useHistory";
 import { GameType } from "../hooks/useReactiveGame";
 import { supabaseClient } from "../infra-tools/supabaseClient";
@@ -12,39 +9,35 @@ import {
   localHistoryToRemoteHistory,
   useWatchHistory,
 } from "../hooks/useWatchHistory";
+import { useHistoryRemote } from "../hooks/useHistoryRemote";
+import { Loading } from "./Loading";
 
 export function RemoteVsGame({
+  theNumber,
   game,
-  yourSession,
-  yourOpponentSession,
+  yourSessionId,
+  yourOpponentSessionId,
 }: {
+  theNumber: string;
   game: GameType;
-  yourSession: any;
-  yourOpponentSession: any;
+  yourSessionId: number;
+  yourOpponentSessionId: number;
 }) {
-  const addToRemoteHistory = useAddToHistory(yourSession.id);
-  const { addToHistory, history, resetHistory } = useHistory();
-  const { addToHistory: addToOpponentHistory, history: opponentHistory } =
-    useHistory();
-  useWatchHistory({
-    sessionId: yourOpponentSession.id,
-    addToHistory: addToOpponentHistory,
-  });
-  const isYourTurn = game.active_session_id === yourSession?.id;
+  const { history: yourInitialHistory } = useHistoryRemote(yourSessionId);
+  const addToRemoteHistory = useAddToHistory(yourSessionId);
+  const { addToHistory, history, resetHistory } =
+    useHistory(yourInitialHistory);
+  const isYourTurn = game.active_session_id === yourSessionId;
   const switchTurn = () => {
     updateGame(game.id, {
-      active_session_id: yourOpponentSession.id,
+      active_session_id: yourOpponentSessionId,
     });
   };
 
-  const { generatedNumber, generateNewNumber } = numberGenerator();
-  const { checkNumber, isCorrectNumber, resetLogic } = useGameLogic(
-    generatedNumber.current
-  );
+  const { checkNumber, isCorrectNumber, resetLogic } = useGameLogic(theNumber);
 
   const restartGame = () => {
     resetLogic();
-    generateNewNumber();
     resetHistory();
   };
 
@@ -67,30 +60,10 @@ export function RemoteVsGame({
           }}
           onRestartGame={restartGame}
         ></GameRoot>
-        <section>
-          <h3>Opponent</h3>
-          <NumbersHistory numbersLog={opponentHistory}></NumbersHistory>
-        </section>
+        <OpponentHistory sessionId={yourOpponentSessionId}></OpponentHistory>
       </section>
     </>
   );
-}
-
-function numberGenerator() {
-  function generateNumber() {
-    return generateUniqueRandomNumberOf({
-      length: numberLength,
-    });
-  }
-  const generatedNumber = useRef<string>();
-  if (!generatedNumber.current) {
-    generatedNumber.current = generateNumber();
-  }
-  const generateNewNumber = () => {
-    generatedNumber.current = generateNumber();
-    return generatedNumber;
-  };
-  return { generatedNumber, generateNewNumber };
 }
 
 function useAddToHistory(sessionId: number) {
@@ -101,7 +74,31 @@ function useAddToHistory(sessionId: number) {
         session_id: sessionId,
       },
     ]);
-    console.log({ data, error });
+    if (error) {
+      console.error(error);
+    }
   };
   return addToHistory;
+}
+
+function OpponentHistory({ sessionId }) {
+  console.log({ opponentSessionId: sessionId });
+  const { history: yourOpponentInitialHistory, loading } =
+    useHistoryRemote(sessionId);
+  const { addToHistory: addToOpponentHistory, history: opponentHistory } =
+    useHistory(yourOpponentInitialHistory);
+  useWatchHistory({
+    sessionId: sessionId,
+    addToHistory: addToOpponentHistory,
+  });
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
+  return (
+    <section>
+      <h3>Opponent</h3>
+      <NumbersHistory numbersLog={opponentHistory}></NumbersHistory>
+    </section>
+  );
 }

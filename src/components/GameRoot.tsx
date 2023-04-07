@@ -5,12 +5,20 @@ import { useKeyboardListeners } from "../hooks/useKeyboardListeners";
 import { NumbersHistory } from "./NumbersHistory";
 import { Timer } from "./Timer";
 import { styles } from "../pages/styles";
+import { HistoryItem } from "../hooks/useHistory";
 
 export function GameRoot({
   onRestartGame,
   isCorrectNumber,
   numbersHistory,
   onSubmitNumber,
+  disableListen,
+}: {
+  onRestartGame: () => void;
+  isCorrectNumber: boolean;
+  numbersHistory: Array<HistoryItem>;
+  onSubmitNumber: (splittedNumber: string[]) => void;
+  disableListen?: boolean;
 }) {
   const {
     splittedNumber,
@@ -25,6 +33,7 @@ export function GameRoot({
     clearInputNumber();
   };
   useKeyboardListeners({
+    disableListen: disableListen,
     addDigitToNumber: addDigitToInputNumber,
     removeDigitFromNumber: removeDigitFromInputNumber,
     onPressEnter: () => onEnterButtonEvent(),
