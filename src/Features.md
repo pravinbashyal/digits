@@ -3,6 +3,7 @@
   - [x] check if the current user's session belongs to current user
   - [x] join if the current user session is not the same
 - [ ] show numbers
+- [ ] describe rule
 - [ ] disable input while opponent is typing
 - [ ] show pressed number below that could be pressed
 - [x] show opponent:
