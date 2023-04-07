@@ -5,7 +5,7 @@ import "spectre.css";
 import { Auth } from "./components/Auth";
 import { CreateDoublePlayerGame } from "./pages/CreateDoublePlayerGame";
 import { supabaseClient } from "./infra-tools/supabaseClient";
-import { Game } from "./pages/Game";
+import { SinglePlayerGame } from "./pages/SinglePlayerGame";
 import { Landing } from "./pages/Landing";
 import { DoublePlayerGame } from "./pages/DoublePlayerGame";
 import { JoinGame } from "./pages/JoinGame";
@@ -21,7 +21,10 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />}></Route>
-              <Route path="/single-player" element={<Game />}></Route>
+              <Route
+                path="/single-player"
+                element={<SinglePlayerGame />}
+              ></Route>
               <Route
                 path="/double-player"
                 element={<CreateDoublePlayerGame />}
