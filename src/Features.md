@@ -1,6 +1,23 @@
-- [ ] join game
-  - [ ] initialize game with session
-  - [ ] check if the current user's session belongs to current user
-  - [ ] join if the current user session is not the same
+- [x] join game
+  - [x] initialize game with session
+  - [x] check if the current user's session belongs to current user
+  - [x] join if the current user session is not the same
 - [ ] show numbers
 - [ ] show pressed number below that could be pressed
+- [ ] show opponent:
+  - [ ] show opponents history
+  - [ ] show opponents inputs
+- [ ] show time:
+  - [ ] show opponent's time
+- [ ] show opponent's time
+- [ ] show number of attempts
+  - [ ] limit attempts
+- [ ] customize game
+  - [ ] number of digits
+  - [ ] time
+  - [ ] number of attempts
+- [ ] keep score
+  - [ ] personal score
+  - [ ] vs history
+- [ ] online status
+- [ ] buy me a coffee
