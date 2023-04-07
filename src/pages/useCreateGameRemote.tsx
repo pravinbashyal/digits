@@ -28,6 +28,7 @@ export function useCreateGameRemote() {
     setGame(game);
     return game;
   };
+
   return {
     game,
     createGame,

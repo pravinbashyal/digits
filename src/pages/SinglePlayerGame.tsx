@@ -1,6 +1,6 @@
 import { numberLength } from "../hooks/useNumber";
 import { useGameLogic } from "../hooks/useGameLogic";
-import { useNumbersHistory } from "../hooks/useNumbersHistory";
+import { useHistory } from "../hooks/useHistory";
 import { generateUniqueRandomNumberOf } from "../utils/generateUniqueRandomNumberOf";
 import { GameRoot } from "../components/GameRoot";
 import { useRef } from "react";
@@ -20,8 +20,7 @@ export function SinglePlayerGame() {
   const { checkNumber, isCorrectNumber, resetLogic } = useGameLogic(
     generatedNumber.current
   );
-  const { addToNumberHistory, numbersHistory, resetHistory } =
-    useNumbersHistory();
+  const { addToHistory, history, resetHistory } = useHistory();
 
   const restartGame = () => {
     resetLogic();
@@ -32,10 +31,10 @@ export function SinglePlayerGame() {
   return (
     <GameRoot
       isCorrectNumber={isCorrectNumber}
-      numbersHistory={numbersHistory}
+      numbersHistory={history}
       onSubmitNumber={(splittedNumber: string[]) => {
         const numberCheckResult = checkNumber(splittedNumber);
-        addToNumberHistory({
+        addToHistory({
           ...numberCheckResult,
           number: splittedNumber.join(""),
         });

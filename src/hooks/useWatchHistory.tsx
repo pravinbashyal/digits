@@ -1,8 +1,18 @@
 import { RealtimeChannel } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { supabaseClient } from "../infra-tools/supabaseClient";
+import { Database } from "../types/supabase";
+import { HistoryItem } from "./useHistory";
 
-export function useWatchHistory(sessionId: number) {
+type RemoteHistory = Database["public"]["Tables"]["history"]["Row"];
+
+export function useWatchHistory({
+  sessionId,
+  addToHistory,
+}: {
+  sessionId: number;
+  addToHistory: (history: HistoryItem) => void;
+}) {
   let subscription: RealtimeChannel;
 
   useEffect(() => {
@@ -18,6 +28,9 @@ export function useWatchHistory(sessionId: number) {
           filter: `session_id=eq.${sessionId}`,
         },
         (payload) => {
+          addToHistory(
+            remoteHistoryToLocalHistory(payload.new as RemoteHistory)
+          );
           console.log(
             `Change detected in Table 1 for Table 2 row with id '${sessionId}':`,
             payload
@@ -30,6 +43,27 @@ export function useWatchHistory(sessionId: number) {
       subscription = undefined;
     };
   }, [sessionId]);
-
-  return subscription;
 }
+
+const remoteHistoryToLocalHistory = (
+  remoteHistory: RemoteHistory
+): HistoryItem => {
+  return {
+    number: remoteHistory.number,
+    correctDigitCount: remoteHistory.correct_digit_count,
+    correctPositionCount: remoteHistory.correct_position_count,
+  };
+};
+
+export const localHistoryToRemoteHistory = (
+  history: HistoryItem
+): Pick<
+  RemoteHistory,
+  "correct_digit_count" | "correct_position_count" | "number"
+> => {
+  return {
+    number: history.number,
+    correct_digit_count: history.correctDigitCount,
+    correct_position_count: history.correctPositionCount,
+  };
+};

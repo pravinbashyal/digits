@@ -4,49 +4,46 @@ import { CopyToClipboard } from "../components/CopyToClipboard";
 import { RemoteVsGame } from "../components/RemoteVsGame";
 import { useReactiveGame } from "../hooks/useReactiveGame";
 import { GameProvider } from "../hooks/useGame";
+import { identifySessions } from "../components/identifySessions";
+import { useUser } from "@supabase/auth-helpers-react";
 
 export function DoublePlayerGame() {
   const { id } = useParams();
   const { game, loading, error } = useReactiveGame(id);
-
-  return (
-    <GameProvider game={game}>
-      <DoublePlayerGameRoot
-        {...{
-          game,
-          loading,
-          error,
-        }}
-      />
-    </GameProvider>
-  );
-}
-
-function DoublePlayerGameRoot({
-  game,
-  loading: loadingGame,
-  error: gameLoadError,
-}) {
-  const bothUsersAlreadyPresent = Boolean(game?.user_2_session);
-  // const addWatchFor =
-
-  if (loadingGame) {
-    return <Loading></Loading>;
-  }
-
-  if (gameLoadError) {
-    return <p>{gameLoadError?.message}</p>;
-  }
+  const user = useUser();
 
   if (!game) {
     return <p>game doesnt exist</p>;
   }
+  const { yourSession, yourOpponentSession } = identifySessions(game, user);
 
-  if (!bothUsersAlreadyPresent) {
+  if (!yourSession) {
+    return <section>Not your game</section>;
+  }
+
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
+  if (error) {
+    return <p>{error?.message}</p>;
+  }
+
+  if (!game.user_2_session) {
     return <WaitingToJoin gameId={game.game_id} />;
   }
 
-  return <RemoteVsGame />;
+  return (
+    <GameProvider game={game}>
+      <RemoteVsGame
+        {...{
+          game,
+          yourSession,
+          yourOpponentSession,
+        }}
+      />
+    </GameProvider>
+  );
 }
 
 function WaitingToJoin({ gameId }: { gameId: string | null }) {

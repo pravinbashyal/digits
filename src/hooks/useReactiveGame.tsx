@@ -17,15 +17,8 @@ export type GameType = Database["public"]["Tables"]["game"]["Row"] & {
 
 export function useReactiveGame(gameId: string) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<PostgrestError | null>(null);
+  let gameFetchError: PostgrestError | null = null;
   const [game, setGame] = useState<GameType | null>(null);
-  const [watchEvents, setWatchEvents] = useState<
-    Array<(item: Partial<GameType>) => void>
-  >([]);
-
-  const addWatchFor = (eventCallback: (item: GameType) => void) => {
-    setWatchEvents((prev) => [...prev, eventCallback]);
-  };
 
   let watchGameChanges: RealtimeChannel;
   useEffect(() => {
@@ -41,12 +34,12 @@ export function useReactiveGame(gameId: string) {
           filter: `game_id=eq.${gameId}`,
         },
         (payload) => {
+          console.log({ payload });
           const updatedGame = payload.new as GameType;
           setGame((prev) => ({
             ...prev,
             ...updatedGame,
           }));
-          watchEvents.forEach((watchEvents) => watchEvents(updatedGame));
         }
       )
       .subscribe();
@@ -82,12 +75,12 @@ export function useReactiveGame(gameId: string) {
         .eq("game_id", gameId);
       setLoading(false);
       if (error) {
-        setError(error);
+        gameFetchError = error;
         return;
       }
       setGame(unboxFirstItem(game));
     };
     fetchGame();
   }, [gameId]);
-  return { addWatchFor, game, loading, error };
+  return { game, loading, error: gameFetchError };
 }

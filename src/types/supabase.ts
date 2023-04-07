@@ -35,6 +35,32 @@ export interface Database {
           user_2_session?: number | null
         }
       }
+      history: {
+        Row: {
+          correct_digit_count: number
+          correct_position_count: number
+          created_at: string | null
+          id: number
+          number: string | null
+          session_id: number
+        }
+        Insert: {
+          correct_digit_count: number
+          correct_position_count: number
+          created_at?: string | null
+          id?: number
+          number?: string | null
+          session_id: number
+        }
+        Update: {
+          correct_digit_count?: number
+          correct_position_count?: number
+          created_at?: string | null
+          id?: number
+          number?: string | null
+          session_id?: number
+        }
+      }
       user_session: {
         Row: {
           created_at: string | null

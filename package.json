@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npm install --force && tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx -c .eslintrc.json src/"
   },
   "dependencies": {
     "@netlify/functions": "^1.4.0",
@@ -24,6 +25,9 @@
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "pnpm": "^8.0.0",
     "prettier": "^2.8.7",
     "supabase": "^1.47.2",

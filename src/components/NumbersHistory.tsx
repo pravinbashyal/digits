@@ -1,11 +1,11 @@
 import React from "react";
 import { borderStyle } from "../styles";
-import { NumberHistoryItem } from "../hooks/useNumbersHistory";
+import { HistoryItem } from "../hooks/useHistory";
 
 export const NumbersHistory = ({
   numbersLog,
 }: {
-  numbersLog: NumberHistoryItem[];
+  numbersLog: HistoryItem[];
 }) => (
   <>
     <h2
