@@ -1,10 +1,10 @@
 import { useCurrentInputNumber } from "../hooks/useNumber";
-import { NumberDisplaySection } from "../components/NumberDisplaySection";
-import { NumberInputSection } from "../components/NumberInputSection";
+import { NumberDisplaySection } from "./NumberDisplaySection";
+import { NumberInputSection } from "./NumberInputSection";
 import { useKeyboardListeners } from "../hooks/useKeyboardListeners";
-import { NumbersHistory } from "../components/NumbersHistory";
-import { Timer } from "../components/Timer";
-import { styles } from "./styles";
+import { NumbersHistory } from "./NumbersHistory";
+import { Timer } from "./Timer";
+import { styles } from "../pages/styles";
 
 export function GameRoot({
   onRestartGame,

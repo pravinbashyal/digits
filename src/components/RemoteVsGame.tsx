@@ -8,7 +8,7 @@ import { useNumbersHistory } from "../hooks/useNumbersHistory";
 import { GameType } from "../hooks/useReactiveGame";
 import { useWatchHistory } from "../hooks/useWatchHistory";
 import { supabaseClient } from "../infra-tools/supabaseClient";
-import { GameRoot } from "../pages/GameRoot";
+import { GameRoot } from "./GameRoot";
 import { updateGame } from "../pages/updateGame";
 import { unboxFirstItem } from "../utils/unboxFirstItem";
 
