@@ -46,6 +46,7 @@ export function RemoteVsGame({
       {isYourTurn ? "your turn" : "your opponent's turn"}
       <section style={{ display: "flex" }}>
         <GameRoot
+          disableListen={!isYourTurn}
           isCorrectNumber={isCorrectNumber}
           numbersHistory={history}
           onSubmitNumber={(splittedNumber: string[]) => {
@@ -60,7 +61,10 @@ export function RemoteVsGame({
           }}
           onRestartGame={restartGame}
         ></GameRoot>
-        <OpponentHistory sessionId={yourOpponentSessionId}></OpponentHistory>
+        <section>
+          <OpponentHistory sessionId={yourOpponentSessionId}></OpponentHistory>
+          {!isYourTurn && <p>Waiting for your opponent to put their number</p>}
+        </section>
       </section>
     </>
   );

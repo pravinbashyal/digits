@@ -4,7 +4,7 @@
   - [x] join if the current user session is not the same
 - [ ] show numbers
 - [ ] describe rule
-- [ ] disable input while opponent is typing
+- [x] disable input while opponent is typing
 - [ ] show pressed number below that could be pressed
 - [x] show opponent:
   - [x] show opponents history

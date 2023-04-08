@@ -51,7 +51,7 @@ export function GameRoot({
           addDigitToNumber={addDigitToInputNumber}
           removeDigitFromNumber={removeDigitFromInputNumber}
           onClickEnter={onEnterButtonEvent}
-          areButtonsDisabled={isCorrectNumber}
+          areButtonsDisabled={isCorrectNumber || disableListen}
         ></NumberInputSection>
         {isCorrectNumber ? (
           <>
